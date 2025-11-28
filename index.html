@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataCamp Module Selector Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Bahnschrift Semicondensed', 'Arial Narrow', 'Liberation Sans Narrow', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: #a0aec0;
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            font-size: 22px;
+            color: #2d3748;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .option-button {
+            padding: 18px 20px;
+            font-size: 16px;
+            text-align: left;
+            background: white;
+            color: #2d3748;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .option-button:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        
+        .back-button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .back-button:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .result-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .result-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        
+        .result-description {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .reasons-section {
+            margin-top: 30px;
+        }
+        
+        .reasons-section h3 {
+            font-size: 20px;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .reasons-section ul {
+            padding-left: 20px;
+        }
+        
+        .reasons-section li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .info-box {
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .info-box-blue {
+            background: #f7fafc;
+        }
+        
+        .info-box-gray {
+            background: #edf2f7;
+        }
+        
+        .info-box-yellow {
+            background: #fffaf0;
+            border-left: 4px solid #ed8936;
+        }
+        
+        .info-box h3 {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .info-box p {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .info-box-yellow p {
+            font-size: 14px;
+            color: #7c2d12;
+        }
+        
+        .reset-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .reset-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        .combo-note {
+            background: #e6fffa;
+            border-left: 4px solid #38b2ac;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .combo-note p {
+            font-size: 14px;
+            color: #234e52;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Name Entry Section -->
+        <div id="name-section">
+            <h1>DataCamp Module Selector</h1>
+            <p class="subtitle">Find the perfect data tool for your background and research goals</p>
+            
+            <div style="margin-top: 40px;">
+                <label for="student-name" style="display: block; font-size: 18px; color: #2d3748; margin-bottom: 10px; font-weight: 600;">
+                    Please enter your name to begin:
+                </label>
+                <input 
+                    type="text" 
+                    id="student-name" 
+                    placeholder="Your full name"
+                    style="width: 100%; padding: 15px; font-size: 16px; border: 2px solid #e2e8f0; border-radius: 10px; margin-bottom: 20px;"
+                />
+                <button 
+                    id="start-button" 
+                    class="reset-button"
+                    style="margin-top: 0;"
+                >
+                    Start Quiz
+                </button>
+                <p id="name-error" style="color: #e53e3e; margin-top: 10px; display: none; font-size: 14px;">
+                    Please enter your name to continue
+                </p>
+            </div>
+        </div>
+        
+        <!-- Quiz Section -->
+        <div id="quiz-section" class="hidden">
+            <h1>DataCamp Module Selector</h1>
+            <p class="subtitle">Find the perfect data tool for your background and research goals</p>
+            
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            
+            <p id="progress-text" class="progress-text">Question 1 of 8</p>
+            
+            <h2 id="question" class="question"></h2>
+            
+            <div id="options" class="options"></div>
+            
+            <button id="back-button" class="back-button hidden">← Previous Question</button>
+        </div>
+        
+        <!-- Result Section -->
+        <div id="result-section" class="hidden">
+            <h1 style="text-align: center;">Your Recommended Module</h1>
+            
+            <div class="result-header">
+                <h2 id="result-title" class="result-title"></h2>
+                <p id="result-description" class="result-description"></p>
+            </div>
+            
+            <div class="reasons-section">
+                <h3>Why this module is right for you:</h3>
+                <ul id="reasons-list"></ul>
+            </div>
+            
+            <div class="info-box info-box-blue">
+                <h3>Recommended DataCamp Course:</h3>
+                <p id="datacamp-course"></p>
+            </div>
+            
+            <div class="info-box info-box-gray">
+                <h3>Learning Path:</h3>
+                <p id="next-steps"></p>
+            </div>
+
+            <div id="combo-recommendation" class="combo-note hidden">
+                <p id="combo-text"></p>
+            </div>
+            
+            <div class="info-box info-box-yellow">
+                <p id="alternative-options"></p>
+            </div>
+            
+            <button id="reset-button" class="reset-button">Retake Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        let studentName = '';
+        let currentQuestion = 0;
+        let answers = {};
+
+        // Start quiz after name entry
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('start-button').onclick = startQuiz;
+            document.getElementById('student-name').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    startQuiz();
+                }
+            });
+        });
+
+        function startQuiz() {
+            const nameInput = document.getElementById('student-name');
+            studentName = nameInput.value.trim();
+            
+            if (studentName === '') {
+                document.getElementById('name-error').style.display = 'block';
+                nameInput.focus();
+                return;
+            }
+            
+            document.getElementById('name-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        const questions = [
+            {
+                id: 'background',
+                question: 'What is your professional background?',
+                options: [
+                    { value: 'architect', label: 'Architecture', weight: { excel: 2, python: 1 } },
+                    { value: 'urban_planner', label: 'Urban Planning', weight: { python: 2, sql: 2, excel: 1 } },
+                    { value: 'civil_engineer', label: 'Civil Engineering', weight: { python: 3, excel: 1 } },
+                    { value: 'mixed', label: 'Mixed/Interdisciplinary', weight: { excel: 1, python: 1, sql: 1 } }
+                ]
+            },
+            {
+                id: 'experience',
+                question: 'How much programming/coding experience do you have?',
+                options: [
+                    { value: 'none', label: 'None - Complete beginner', weight: { excel: 4 } },
+                    { value: 'basic', label: 'Basic - I\'ve tried simple coding', weight: { excel: 3, python: 1 } },
+                    { value: 'some', label: 'Intermediate - Comfortable with basics', weight: { python: 3, sql: 2 } },
+                    { value: 'advanced', label: 'Advanced - I code regularly', weight: { python: 4, sql: 3 } }
+                ]
+            },
+            {
+                id: 'thesis_focus',
+                question: 'What\'s your thesis/project focus area?',
+                options: [
+                    { value: 'design', label: 'Design/visualization projects', weight: { excel: 2, python: 2 } },
+                    { value: 'spatial', label: 'Spatial analysis/mapping', weight: { python: 4, sql: 1 } },
+                    { value: 'survey', label: 'Survey/interview based research', weight: { excel: 4, python: 1 } },
+                    { value: 'quantitative', label: 'Quantitative analysis/modeling', weight: { python: 3, sql: 2, excel: 1 } },
+                    { value: 'policy', label: 'Policy analysis/evaluation', weight: { excel: 3, sql: 2 } },
+                    { value: 'undecided', label: 'Still deciding', weight: { excel: 2, python: 1, sql: 1 } }
+                ]
+            },
+            {
+                id: 'data_type',
+                question: 'What type of data will you work with most?',
+                options: [
+                    { value: 'survey', label: 'Survey data and questionnaires', weight: { excel: 4, python: 1 } },
+                    { value: 'census', label: 'Census and demographic data', weight: { sql: 3, excel: 2, python: 2 } },
+                    { value: 'spatial', label: 'Spatial/GIS data', weight: { python: 4, sql: 1 } },
+                    { value: 'big_data', label: 'Large datasets (millions of rows)', weight: { sql: 4, python: 3 } },
+                    { value: 'mixed', label: 'Various types', weight: { python: 2, sql: 2, excel: 1 } }
+                ]
+            },
+            {
+                id: 'data_source',
+                question: 'Where will your data come from?',
+                options: [
+                    { value: 'collect', label: 'I\'ll collect it myself (surveys, observations)', weight: { excel: 4 } },
+                    { value: 'open_data', label: 'Open data portals (government, city data)', weight: { sql: 3, python: 2 } },
+                    { value: 'university', label: 'University databases/repositories', weight: { sql: 3, excel: 2 } },
+                    { value: 'api', label: 'APIs or web scraping', weight: { python: 5 } }
+                ]
+            },
+            {
+                id: 'tasks',
+                question: 'What tasks do you need to do most often?',
+                options: [
+                    { value: 'quick_analysis', label: 'Quick data exploration and charts', weight: { excel: 4, python: 1 } },
+                    { value: 'query', label: 'Extract specific data from databases', weight: { sql: 5 } },
+                    { value: 'automation', label: 'Automate repetitive tasks', weight: { python: 4, sql: 1 } },
+                    { value: 'visualization', label: 'Create publication-quality visualizations', weight: { python: 3, excel: 2 } },
+                    { value: 'statistics', label: 'Statistical analysis', weight: { python: 3, excel: 2 } }
+                ]
+            },
+            {
+                id: 'learning_style',
+                question: 'How do you prefer to learn new tools?',
+                options: [
+                    { value: 'visual', label: 'Visual interface - I like clicking buttons', weight: { excel: 4 } },
+                    { value: 'gradual', label: 'Step by step, building gradually', weight: { excel: 2, python: 2 } },
+                    { value: 'dive_deep', label: 'Dive deep into powerful tools', weight: { python: 4, sql: 2 } },
+                    { value: 'practical', label: 'Learn by solving real problems', weight: { python: 2, sql: 2, excel: 1 } }
+                ]
+            },
+            {
+                id: 'future_goals',
+                question: 'What are your future career/research goals?',
+                options: [
+                    { value: 'consultant', label: 'Consulting/Policy work', weight: { excel: 3, sql: 2 } },
+                    { value: 'researcher', label: 'Academic research', weight: { python: 3, sql: 2, excel: 1 } },
+                    { value: 'data_analyst', label: 'Data analyst/scientist', weight: { python: 4, sql: 4 } },
+                    { value: 'practitioner', label: 'Planning/Engineering practice', weight: { excel: 2, python: 2, sql: 2 } },
+                    { value: 'flexible', label: 'Keeping options open', weight: { python: 2, excel: 2, sql: 1 } }
+                ]
+            }
+        ];
+
+        const moduleInfo = {
+            python: {
+                title: 'Python for Data Analysis',
+                description: 'Python is your best choice! It\'s the most versatile tool for modern urban research. With 4-6 months, you can gain solid foundational skills.',
+                reasons: [
+                    'Perfect for spatial data analysis and GIS integration (GeoPandas, ArcPy)',
+                    'Industry-leading libraries for data manipulation (pandas) and visualization (matplotlib, seaborn)',
+                    'Automate repetitive tasks and create reproducible research workflows',
+                    'Powerful data cleaning and preparation - essential for feeding clean data to viz tools (Flourish, Tableau, PowerBI)',
+                    'BIM integration: Work with Revit API, Dynamo, process IFC files, and automate BIM workflows',
+                    'Essential skill for data science and increasingly used in architecture, planning, and engineering',
+                    'One language does everything - from data cleaning to advanced modeling to BIM automation'
+                ],
+                datacamp: 'Introduction to Python for Data Science',
+                nextSteps: 'Realistic 4-6 month path: Month 1-2: Python fundamentals and pandas basics. Month 3-4: Data manipulation and visualization for your thesis. Month 5-6: Apply to your specific research (GeoPandas for spatial work, or ifcopenshell for BIM projects). Python has a steeper learning curve initially but pays off for complex research.',
+                combo: 'If you have 5-6 months, learn SQL basics alongside Python - they work perfectly together! Python for analysis, SQL for data extraction.'
+            },
+            sql: {
+                title: 'SQL for Database Queries',
+                description: 'SQL is perfect for you! Learn the essential skill for working efficiently with large datasets. Achievable within 3-4 months for practical use.',
+                reasons: [
+                    'Query massive databases in seconds (census, administrative data, urban sensors)',
+                    'Relatively quick to learn - be productive in 3-4 weeks, master basics in 2-3 months',
+                    'Industry standard - used everywhere from government to tech companies',
+                    'Works seamlessly with Excel, Python, GIS software, and business intelligence tools',
+                    'Essential for accessing open data portals and public datasets',
+                    'Immediate practical benefits for thesis research'
+                ],
+                datacamp: 'Introduction to SQL',
+                nextSteps: 'Realistic 3-4 month path: Week 1-2: SELECT, WHERE, basic queries. Week 3-4: JOINs and combining tables. Month 2-3: Practice with real urban datasets (census, city data). Month 4: Advanced queries for your specific research. SQL is highly practical and you\'ll use it immediately in your thesis work.',
+                combo: 'After SQL basics (2-3 months), add Excel for quick analysis or Python for advanced work - you\'ll have time!'
+            },
+            excel: {
+                title: 'Excel for Data Analysis',
+                description: 'Excel is ideal for you! The most accessible tool for quick data analysis, perfect for getting productive within your 3-6 month masters timeline.',
+                reasons: [
+                    'Fastest to learn - be productive within 2-3 weeks, perfect for tight deadlines',
+                    'Perfect for survey analysis, descriptive statistics, and quick visualizations',
+                    'Essential for data cleaning and preparation - even modern viz tools (Flourish, Datawrapper, Tableau) need clean data',
+                    'Widely used in professional practice - essential for consultants and practitioners',
+                    'Great for presentations and sharing results with non-technical audiences',
+                    'Excellent starting point before advancing to Python or SQL'
+                ],
+                datacamp: 'Data Analysis in Excel',
+                nextSteps: 'Master pivot tables, VLOOKUP, formulas, and data cleaning techniques in weeks 1-2. Learn to prepare data properly for visualization tools like Flourish or Tableau by week 3-4. Excel lets you focus on your thesis rather than learning curve. As your data needs grow, consider adding Python or SQL to your toolkit.',
+                combo: 'Excel is a great foundation! If you have 4-6 months, consider adding SQL basics for accessing larger datasets.'
+            }
+        };
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            document.getElementById('question').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = option.label;
+                button.onclick = () => handleAnswer(option);
+                optionsContainer.appendChild(button);
+            });
+            
+            const backButton = document.getElementById('back-button');
+            if (currentQuestion > 0) {
+                backButton.classList.remove('hidden');
+            } else {
+                backButton.classList.add('hidden');
+            }
+        }
+
+        function handleAnswer(option) {
+            answers[questions[currentQuestion].id] = option;
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function goBack() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function calculateRecommendation() {
+            const scores = { python: 0, sql: 0, excel: 0 };
+            
+            Object.values(answers).forEach(answer => {
+                if (answer.weight) {
+                    Object.keys(answer.weight).forEach(key => {
+                        scores[key] = (scores[key] || 0) + answer.weight[key];
+                    });
+                }
+            });
+            
+            const maxScore = Math.max(...Object.values(scores));
+            const recommended = Object.keys(scores).find(key => scores[key] === maxScore);
+            
+            // Check if it's a close call (for combo recommendations)
+            const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+            const isCloseCall = sortedScores[0][1] - sortedScores[1][1] <= 3;
+            
+            return { scores, recommended, isCloseCall, secondChoice: sortedScores[1][0] };
+        }
+
+        function showResult() {
+            const { scores, recommended, isCloseCall, secondChoice } = calculateRecommendation();
+            const info = moduleInfo[recommended];
+            
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            
+            // Show personalized title with student name
+            document.querySelector('#result-section h1').textContent = studentName + "'s Recommended Module";
+            
+            document.getElementById('result-title').textContent = info.title;
+            document.getElementById('result-description').textContent = info.description;
+            
+            const reasonsList = document.getElementById('reasons-list');
+            reasonsList.innerHTML = '';
+            info.reasons.forEach(reason => {
+                const li = document.createElement('li');
+                li.textContent = reason;
+                reasonsList.appendChild(li);
+            });
+            
+            document.getElementById('datacamp-course').textContent = info.datacamp;
+            document.getElementById('next-steps').textContent = info.nextSteps;
+            
+            // Show combo recommendation if it's close
+            const comboDiv = document.getElementById('combo-recommendation');
+            if (isCloseCall) {
+                comboDiv.classList.remove('hidden');
+                document.getElementById('combo-text').innerHTML = 
+                    `<strong>Tip:</strong> ${info.combo}`;
+            } else {
+                comboDiv.classList.add('hidden');
+            }
+            
+            const sortedScores = Object.entries(scores)
+                .sort((a, b) => b[1] - a[1])
+                .map(([module, score]) => `${module.toUpperCase()}: ${score} points`)
+                .join(' • ');
+            
+            document.getElementById('alternative-options').innerHTML = 
+                `<strong>Your scores:</strong><br/>${sortedScores}<br/><br/>All three tools are valuable! This recommendation is based on your current background and goals, but you can learn multiple tools over time.`;
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            answers = {};
+            studentName = '';
+            document.getElementById('student-name').value = '';
+            document.getElementById('name-error').style.display = 'none';
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('name-section').classList.remove('hidden');
+        }
+
+        document.getElementById('back-button').onclick = goBack;
+        document.getElementById('reset-button').onclick = resetQuiz;
+    </script>
+</body>
+</html>
