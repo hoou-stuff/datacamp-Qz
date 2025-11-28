@@ -580,29 +580,8 @@
                 .map(([module, score]) => `${module.toUpperCase()}: ${score} points`)
                 .join(' • ');
             
-            // Create copy-paste results text
-            const resultsText = `Name: ${studentName}\nRecommended Module: ${recommended.toUpperCase()}\nScores: Python=${scores.python}, SQL=${scores.sql}, Excel=${scores.excel}\nBackground: ${answers.background ? answers.background.label : ''}\nExperience: ${answers.experience ? answers.experience.label : ''}`;
-            
             document.getElementById('alternative-options').innerHTML = 
-                `<strong>Your scores:</strong><br/>${sortedScores}<br/><br/>All three tools are valuable! This recommendation is based on your current background and goals, but you can learn multiple tools over time.<br/><br/>
-                <div style="background: #f0fdf4; border: 2px solid #86efac; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                    <strong style="color: #166534;">Submit Your Results:</strong><br/>
-                    <textarea id="results-text" readonly style="width: 100%; padding: 10px; margin-top: 10px; font-family: monospace; font-size: 13px; border: 1px solid #d1d5db; border-radius: 5px; resize: vertical;" rows="6">${resultsText}</textarea>
-                    <button onclick="copyResults()" style="margin-top: 10px; padding: 10px 20px; background: #16a34a; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">Copy to Clipboard</button>
-                    <span id="copy-feedback" style="color: #16a34a; margin-left: 10px; display: none;">✓ Copied! Now paste into Moodle</span>
-                </div>`;
-        }
-        
-        function copyResults() {
-            const textarea = document.getElementById('results-text');
-            textarea.select();
-            document.execCommand('copy');
-            
-            const feedback = document.getElementById('copy-feedback');
-            feedback.style.display = 'inline';
-            setTimeout(() => {
-                feedback.style.display = 'none';
-            }, 3000);
+                `<strong>Your scores:</strong><br/>${sortedScores}<br/><br/>All three tools are valuable! This recommendation is based on your current background and goals, but you can learn multiple tools over time.`;
         }
 
         function resetQuiz() {
